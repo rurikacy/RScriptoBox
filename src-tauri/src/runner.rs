@@ -1114,6 +1114,10 @@ fn replay(
 }
 
 #[cfg(test)]
+#[path = "../../tests/runner/terminal_text.rs"]
+mod terminal_text;
+
+#[cfg(test)]
 mod tests {
     use super::*;
     #[test]
@@ -1297,16 +1301,17 @@ mod tests {
     fn wait_terminal(runner: &Runner, id: &str, expected: &str) -> String {
         let started = Instant::now();
         loop {
-            let text = runner
+            let raw = runner
                 .read_log(id, 0, "utf-8", MIB as usize)
                 .map(|p| p.text)
                 .unwrap_or_default();
+            let text = terminal_text::text(&raw);
             if text.contains(expected) {
                 return text;
             }
             assert!(
                 started.elapsed() < Duration::from_secs(12),
-                "terminal waiting for {expected:?}: {text:?}"
+                "terminal waiting for {expected:?}: {raw:?}"
             );
             thread::sleep(Duration::from_millis(30));
         }
@@ -1338,11 +1343,13 @@ mod tests {
         runner.input(&id, "\u{3}").unwrap();
         let run = finished(&store, &id);
         assert_eq!(run.state, "succeeded", "{:?}", run.reason);
-        assert!(runner
-            .read_log(&id, 0, "system", MIB as usize)
-            .unwrap()
-            .text
-            .contains("INTERRUPTED"));
+        assert!(terminal_text::text(
+            &runner
+                .read_log(&id, 0, "system", MIB as usize)
+                .unwrap()
+                .text
+        )
+        .contains("INTERRUPTED"));
         assert!(runner.input(&id, "late").is_err());
         cleanup(root, store, runner);
     }
@@ -1401,11 +1408,10 @@ mod tests {
             runner.input(&id, "y").unwrap();
             let run = finished(&store, &id);
             assert_eq!(run.state, "succeeded", "{kind}: {:?}", run.reason);
-            assert!(runner
-                .read_log(&id, 0, "utf-8", MIB as usize)
-                .unwrap()
-                .text
-                .contains("KEY_OK"));
+            assert!(terminal_text::text(
+                &runner.read_log(&id, 0, "utf-8", MIB as usize).unwrap().text
+            )
+            .contains("KEY_OK"));
             cleanup(root, store, runner);
         }
     }
@@ -1447,7 +1453,38 @@ mod tests {
                     .to_string_lossy()
                     .starts_with("rscripto-runner-")
         );
-        fs::remove_dir_all(root).unwrap();
+        let started = Instant::now();
+        loop {
+            match fs::remove_dir_all(&root) {
+                Ok(()) => break,
+                Err(error)
+                    if matches!(error.raw_os_error(), Some(32 | 33))
+                        && started.elapsed() < Duration::from_secs(5) =>
+                {
+                    // ConPTY closes asynchronously and can briefly retain the cwd.
+                    thread::sleep(Duration::from_millis(20));
+                }
+                Err(error) => panic!("test cleanup failed for {}: {error}", root.display()),
+            }
+        }
+    }
+    #[test]
+    fn cleanup_waits_for_a_transient_windows_file_lock() {
+        use std::os::windows::fs::OpenOptionsExt;
+        let (root, store, runner, _, _) = setup("echo.py");
+        let lock = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .share_mode(0)
+            .open(root.join("cleanup.lock"))
+            .unwrap();
+        let release = thread::spawn(move || {
+            thread::sleep(Duration::from_millis(100));
+            drop(lock);
+        });
+        cleanup(root.clone(), store, runner);
+        release.join().unwrap();
+        assert!(!root.exists());
     }
     #[test]
     fn real_runner_persists_state_and_replays_both_streams() {
@@ -1580,7 +1617,7 @@ mod tests {
         const HANDOFF: &str = "RSCRIPTO_CRASH_TEST_HANDOFF";
         if let Some(handoff) = std::env::var_os(HANDOFF) {
             let (root, store, runner, mut script, runtime) = setup("echo.py");
-            fs::write(&script.path, "import json,os,pathlib,subprocess,sys,time\nchild=subprocess.Popen([sys.executable,'-c','import time; time.sleep(60)'])\npathlib.Path('pids.json').write_text(json.dumps([os.getpid(),child.pid]))\nprint('running',flush=True)\ntime.sleep(60)\n").unwrap();
+            fs::write(&script.path, "import json,os,pathlib,subprocess,sys,time\nchild=subprocess.Popen([sys.executable,'-c','import time; time.sleep(60)'])\npathlib.Path('pids.tmp').write_text(json.dumps([os.getpid(),child.pid]))\nos.replace('pids.tmp', 'pids.json')\nprint('running',flush=True)\ntime.sleep(60)\n").unwrap();
             script.trusted_hash = Some(entry_hash(Path::new(&script.path)).unwrap());
             script.timeout_seconds = Some(60);
             store.put("scripts", &script.id, &script).unwrap();

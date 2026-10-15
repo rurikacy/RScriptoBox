@@ -23,3 +23,7 @@ PowerShell 参数测试显式使用**仅该测试进程**的 `-ExecutionPolicy B
 Windows Terminal 与传统控制台的人工关闭、Ctrl+C、PowerShell `Read-Host`、批处理 `pause`，以及磁盘已满和应用被强制结束的系统级故障矩阵，仍应在干净的 Windows 虚拟机做发布验收。
 
 0.2.0 新增 ConPTY 真实控制台句柄与输入输出往返测试；主 crate 的 real_terminal 测试覆盖中文输入、getpass、Ctrl+C、尺寸变化、CMD set /p/pause 及 PowerShell 5.1/7 Read-Host/ReadKey。
+
+终端测试通过共享的 `terminal_text.rs` 去掉 ConPTY 插入的 CSI/OSC 控制序列，再断言顺序文本。回归用例包含 GitHub Actions 在 `TTY` 与 `True True` 之间插入窗口标题的真实输出；标题内的文本不应被当作程序输出。该辅助函数仅用于测试，不模拟光标重绘，也不修改产品原始日志；界面渲染仍需单独验证。
+
+故障恢复夹具通过临时文件加原子重命名发布 PID，避免父进程读到空文件；临时目录清理仅对 Windows 共享/锁冲突限时等待，以容纳 ConPTY 异步释放句柄。其他错误直接失败，真实文件独占锁用例覆盖清理等待路径。

@@ -1,10 +1,11 @@
 #![cfg(test)]
 #[path = "../../src-tauri/src/process_windows.rs"]
 mod process_windows;
+mod terminal_text;
 
 #[cfg(test)]
 mod integration {
-    use super::process_windows::*;
+    use super::{process_windows::*, terminal_text};
     use std::{
         collections::BTreeMap,
         ffi::OsString,
@@ -68,7 +69,9 @@ mod integration {
         (
             process.root_exit_code().unwrap().unwrap(),
             stdout.join().unwrap(),
-            stderr.map(|reader| reader.join().unwrap()).unwrap_or_default(),
+            stderr
+                .map(|reader| reader.join().unwrap())
+                .unwrap_or_default(),
         )
     }
     #[test]
@@ -79,7 +82,7 @@ mod integration {
         process.resize(112, 35).unwrap();
         write_input(process.input.as_mut().unwrap(), b"roundtrip\r").unwrap();
         let (code, output, _) = capture(process);
-        let output = String::from_utf8(output).unwrap();
+        let output = terminal_text::text(&String::from_utf8(output).unwrap());
         assert_eq!(code, 0);
         assert!(output.contains("TTY True True"), "{output:?}");
         assert!(output.contains("VALUE=roundtrip"), "{output:?}");
