@@ -113,7 +113,10 @@ mod integration {
         let value: serde_json::Value = serde_json::from_slice(&stdout).unwrap();
         assert_eq!(value["args"], serde_json::json!(expected));
         assert_eq!(value["env"], "中文 value");
-        assert_eq!(value["cwd"], directory.to_string_lossy().as_ref());
+        assert_eq!(
+            fs::canonicalize(value["cwd"].as_str().unwrap()).unwrap(),
+            fs::canonicalize(&directory).unwrap()
+        );
         assert!(String::from_utf8(stderr).unwrap().contains("stderr 可见"));
         fs::remove_dir_all(directory).unwrap();
     }
@@ -191,7 +194,10 @@ mod integration {
         let result: serde_json::Value = serde_json::from_slice(&stdout).unwrap();
         assert_eq!(result["args"], serde_json::json!(expected));
         assert_eq!(result["env"], "中文 value");
-        assert_eq!(result["cwd"], directory.to_string_lossy().as_ref());
+        assert_eq!(
+            fs::canonicalize(result["cwd"].as_str().unwrap()).unwrap(),
+            fs::canonicalize(&directory).unwrap()
+        );
         fs::remove_dir_all(directory).unwrap();
     }
     #[test]

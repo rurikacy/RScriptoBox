@@ -27,3 +27,5 @@ Windows Terminal 与传统控制台的人工关闭、Ctrl+C、PowerShell `Read-H
 终端测试通过共享的 `terminal_text.rs` 去掉 ConPTY 插入的 CSI/OSC 控制序列，再断言顺序文本。回归用例包含 GitHub Actions 在 `TTY` 与 `True True` 之间插入窗口标题的真实输出；标题内的文本不应被当作程序输出。该辅助函数仅用于测试，不模拟光标重绘，也不修改产品原始日志；界面渲染仍需单独验证。
 
 故障恢复夹具通过临时文件加原子重命名发布 PID，避免父进程读到空文件；临时目录清理仅对 Windows 共享/锁冲突限时等待，以容纳 ConPTY 异步释放句柄。其他错误直接失败，真实文件独占锁用例覆盖清理等待路径。
+
+工作目录断言先规范化双方路径，兼容 GitHub Windows 主机上的 `RUNNER~1` 8.3 短路径与 PowerShell 返回的长路径，同时仍要求实际目录一致。
