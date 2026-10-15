@@ -1,0 +1,30 @@
+{
+  "name": "rscriptobox",
+  "version": "0.2.0",
+  "license": "Unlicense",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --experimental-strip-types --test src/model.test.ts",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.10.1",
+    "@tauri-apps/plugin-dialog": "^2.6.0",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "lucide-vue-next": "^0.468.0",
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.10.1",
+    "@types/node": "^24.0.0",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.10",
+    "vue-tsc": "^3.1.1"
+  }
+}

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-plan-runtime-install"
+description = "Enables the plan_runtime_install command without any pre-configured scope."
+commands.allow = ["plan_runtime_install"]
+
+[[permission]]
+identifier = "deny-plan-runtime-install"
+description = "Denies the plan_runtime_install command without any pre-configured scope."
+commands.deny = ["plan_runtime_install"]

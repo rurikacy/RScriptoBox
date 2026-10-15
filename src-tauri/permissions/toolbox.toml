@@ -1,0 +1,13 @@
+[[permission]]
+identifier = "allow-toolbox"
+description = "Business commands for the local script library"
+commands.allow = [
+  "list_scripts", "add_scripts", "update_script", "remove_script", "relocate_script",
+  "open_script_location", "edit_script", "run_script", "stop_run", "list_runs",
+  "write_terminal_input", "resize_terminal",
+  "read_run_log", "export_run_log", "ack_run_output", "list_runtimes", "refresh_runtimes", "register_runtime",
+  "list_environments", "plan_runtime_install", "start_runtime_install",
+  "list_install_jobs", "read_install_log", "cancel_runtime_install", "recheck_install",
+  "create_python_environment", "install_requirements", "get_settings", "update_settings",
+  "backup_database", "restore_database", "app_info", "open_data_directory", "open_official_page"
+]

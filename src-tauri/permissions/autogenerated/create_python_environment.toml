@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-create-python-environment"
+description = "Enables the create_python_environment command without any pre-configured scope."
+commands.allow = ["create_python_environment"]
+
+[[permission]]
+identifier = "deny-create-python-environment"
+description = "Denies the create_python_environment command without any pre-configured scope."
+commands.deny = ["create_python_environment"]

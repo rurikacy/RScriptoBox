@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-export-run-log"
+description = "Enables the export_run_log command without any pre-configured scope."
+commands.allow = ["export_run_log"]
+
+[[permission]]
+identifier = "deny-export-run-log"
+description = "Denies the export_run_log command without any pre-configured scope."
+commands.deny = ["export_run_log"]

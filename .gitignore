@@ -1,0 +1,39 @@
+# Dependencies and build outputs (keep package-lock.json and Cargo.lock)
+/node_modules/
+/dist/
+**/target/
+/release/
+/test-results/
+/test-output/
+/.local-test/
+/.reference/
+*.pdb
+*.log
+*.tmp
+
+# Local workspace data, interpreters and secrets
+/data/
+/portable.flag
+/.venv/
+/venv/
+__pycache__/
+*.py[cod]
+*.db
+*.db-wal
+*.db-shm
+.env
+.env.*
+!.env.example
+*.pem
+*.pfx
+*.p12
+*.key
+
+# Editor / OS state
+/.idea/
+/.vscode/
+/.codegraph/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp

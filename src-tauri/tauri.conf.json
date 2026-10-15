@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "RScriptoBox",
+  "version": "0.2.0",
+  "identifier": "com.rscripto.box",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [{
+      "label": "main", "title": "RScriptoBox · 脚本工具箱",
+      "width": 1320, "height": 860, "minWidth": 520, "minHeight": 240,
+      "center": true, "backgroundColor": "#13151c", "dragDropEnabled": true
+    }],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: data:; connect-src ipc: http://ipc.localhost; font-src 'self' data:",
+      "capabilities": ["main"]
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "icon": ["icons/32.png", "icons/256.png", "icons/icon.ico"],
+    "shortDescription": "Windows 脚本管理工具箱",
+    "category": "DeveloperTool",
+    "windows": { "webviewInstallMode": { "type": "downloadBootstrapper" } }
+  }
+}

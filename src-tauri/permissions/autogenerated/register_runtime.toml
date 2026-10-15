@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-register-runtime"
+description = "Enables the register_runtime command without any pre-configured scope."
+commands.allow = ["register_runtime"]
+
+[[permission]]
+identifier = "deny-register-runtime"
+description = "Denies the register_runtime command without any pre-configured scope."
+commands.deny = ["register_runtime"]

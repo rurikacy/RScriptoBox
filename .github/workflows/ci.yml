@@ -1,0 +1,27 @@
+name: Windows checks
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          architecture: x64
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: node --experimental-strip-types scripts/benchmark.mjs
+      - run: cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
+      - run: cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets
+      - run: cargo test --manifest-path src-tauri/Cargo.toml --lib -- --test-threads=1
+      - run: cargo test --manifest-path tests/runner/Cargo.toml -- --test-threads=1
+      - run: npm run tauri -- build --no-bundle

@@ -1,0 +1,13 @@
+{
+  "Rust:alloc-stdlib@0.3.0": "upstream/alloc-stdlib-0.3.0.txt",
+  "Rust:defmt-parser@1.0.0": "upstream/defmt-parser-1.0.0.txt",
+  "Rust:selectors@0.38.0": "upstream/selectors-0.38.0.txt",
+  "Rust:tauri-plugin@2.7.2": "upstream/tauri-plugin-2.7.2.txt",
+  "Rust:webview2-com@0.39.1": "upstream/webview2-com-0.39.1.txt",
+  "Rust:webview2-com-macros@0.8.1": "upstream/webview2-com-macros-0.8.1.txt",
+  "Rust:webview2-com-sys@0.39.1": "upstream/webview2-com-sys-0.39.1.txt",
+  "npm:@esbuild/win32-x64@0.28.2": "upstream/esbuild-win32-x64-0.28.2.txt",
+  "npm:@rollup/rollup-win32-x64-gnu@4.64.6": "upstream/rollup-rollup-win32-x64-gnu-4.64.6.txt",
+  "npm:@rollup/rollup-win32-x64-msvc@4.64.6": "upstream/rollup-rollup-win32-x64-msvc-4.64.6.txt",
+  "npm:@tauri-apps/cli-win32-x64-msvc@2.12.3": "upstream/tauri-apps-cli-win32-x64-msvc-2.12.3.txt"
+}

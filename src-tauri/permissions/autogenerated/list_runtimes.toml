@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-list-runtimes"
+description = "Enables the list_runtimes command without any pre-configured scope."
+commands.allow = ["list_runtimes"]
+
+[[permission]]
+identifier = "deny-list-runtimes"
+description = "Denies the list_runtimes command without any pre-configured scope."
+commands.deny = ["list_runtimes"]
