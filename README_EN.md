@@ -30,12 +30,10 @@ The application has a dark purple interface and ships as a portable directory. R
 <table>
   <tr><th>Runtime center</th><th>Run history</th></tr>
   <tr>
-    <td><a href="docs/screenshots/runtime-center.png"><img src="docs/screenshots/runtime-center.png" alt="Detect and manage CMD, PowerShell and Python interpreters" width="560" /></a></td>
-    <td><a href="docs/screenshots/run-history.png"><img src="docs/screenshots/run-history.png" alt="Filter execution records and inspect status, duration and exit codes" width="560" /></a></td>
+    <td><img src="docs/screenshots/runtime-center.png" alt="Detect and manage CMD, PowerShell and Python interpreters" width="560" /></a></td>
+    <td><img src="docs/screenshots/run-history.png" alt="Filter execution records and inspect status, duration and exit codes" width="560" /></a></td>
   </tr>
 </table>
-
-These maintainer-provided screenshots show the actual 0.2.0 interface; script names and related details were already blurred in the supplied images. Click a thumbnail for the full image. Interpreter versions and paths belong to the pictured device.
 
 ## ✨ Features
 

@@ -30,12 +30,10 @@
 <table>
   <tr><th>环境中心</th><th>运行历史</th></tr>
   <tr>
-    <td><a href="docs/screenshots/runtime-center.png"><img src="docs/screenshots/runtime-center.png" alt="检测并管理 CMD、PowerShell 与 Python 解释器" width="560" /></a></td>
-    <td><a href="docs/screenshots/run-history.png"><img src="docs/screenshots/run-history.png" alt="按结果和时间筛选执行记录，查看状态、耗时与退出码" width="560" /></a></td>
+    <td><img src="docs/screenshots/runtime-center.png" alt="检测并管理 CMD、PowerShell 与 Python 解释器" width="560" /></a></td>
+    <td><img src="docs/screenshots/run-history.png" alt="按结果和时间筛选执行记录，查看状态、耗时与退出码" width="560" /></a></td>
   </tr>
 </table>
-
-截图由项目维护者提供，展示 0.2.0 实际界面；脚本名称等内容已在原图中打码。点击缩略图可查看原尺寸，截图中的解释器版本与路径仅代表该设备。
 
 ## ✨ 功能特性
 
